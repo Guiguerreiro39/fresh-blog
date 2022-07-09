@@ -1,11 +1,10 @@
 /** @jsx h */
 import { h } from "preact";
-import { tw } from "twind";
+import { tw } from "twind"
+import { PostsType } from '../utils/locate.ts'
 
 interface ContentProps {
-  posts: {
-    [key: string]: [string?];
-  };
+  posts: PostsType;
 }
 
 export default function Content(props: ContentProps) {
@@ -21,21 +20,16 @@ export default function Content(props: ContentProps) {
       <div class={tw`flex flex-wrap items-center gap-5`}>
         {Object.entries(props.posts).map(([key, value]) =>
           value.map((post) => {
-            const path = `./posts/${key}/${post}.md`;
-            const { birthtime } = Deno.statSync(`./posts/${key}/${post}.md`);
-            const file = Deno.readTextFileSync(path);
-            const firstLine = file.split("\n")[0];
-
             return (
               <a
-                href={`/${key}/${post}`}
+                href={`/${key}/${post?.url}`}
                 class={tw
                   `bg-white w-80 h-96 rounded shadow-md overflow-hidden cursor-pointer relative`}
               >
                 <img
                   class={tw`h-1/2 w-full cover`}
-                  src={`${post}.jpg`}
-                  alt={post}
+                  src={`${post?.url}.jpg`}
+                  alt={post?.title}
                 />
                 <div class={tw`my-4 mx-3 space-y-4`}>
                   <span
@@ -45,7 +39,7 @@ export default function Content(props: ContentProps) {
                     {key}
                   </span>
                   <h3 class={tw`border-none capitalize`}>
-                    {firstLine.slice(2, firstLine.length)}
+                    {post?.title}
                   </h3>
                   <p
                     class={tw
@@ -54,7 +48,7 @@ export default function Content(props: ContentProps) {
                     By&nbsp;
                     <span class={tw`font-semibold`}>Guilherme Guerreiro</span>
                     <span class={tw`mx-2`}>•</span>
-                    {birthtime?.toDateString()}
+                    {post?.date?.toDateString()}
                   </p>
                 </div>
               </a>
