@@ -8,9 +8,8 @@
     "twind": "https://esm.sh/twind@0.16.17",
     "twind/": "https://esm.sh/twind@0.16.17/",
     "markdown": "https://deno.land/x/markdown@v2.0.0/mod.ts",
-    "html": "https://deno.land/x/html@v1.2.0/mod.ts",
-    "gfm": "https://deno.land/x/gfm@0.1.20/mod.ts",
     "css": "https://esm.sh/css@3.0.0",
-    "css/": "https://esm.sh/css@3.0.0/"
+    "css/": "https://esm.sh/css@3.0.0/",
+    "dotenv": "https://deno.land/x/dotenv@v3.2.0/mod.ts"
   }
 }

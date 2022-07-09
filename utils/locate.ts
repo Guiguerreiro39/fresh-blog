@@ -22,13 +22,12 @@ export async function getPosts(dir: string) {
 
   for await (const post of Deno.readDir(`./posts/${dir}`)) {
     const path = `./posts/${dir}/${post.name}`;
-    const stat = await Deno.stat(path);
-    console.log(stat)
+    const { birthtime } = await Deno.stat(path);
     const file = await Deno.readTextFile(path);
     const firstLine = file.split("\n")[0];
 
     if (post.isFile) {
-      const payload = {url: post.name.split(".md")[0], title: firstLine.slice(2, firstLine.length), date: stat.birthtime}
+      const payload = {url: post.name.split(".md")[0], title: firstLine.slice(2, firstLine.length), date: birthtime}
       posts.push(payload);
     }
   }
