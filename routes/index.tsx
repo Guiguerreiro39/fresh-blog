@@ -2,7 +2,6 @@
 import { h } from "preact";
 import { tw } from "@twind";
 import { Handlers, PageProps } from "$fresh/server.ts";
-import { config } from 'dotenv'
 import Navbar from '../components/Navbar.tsx';
 import Footer from '../components/Footer.tsx';
 import Content from '../components/Content.tsx';
@@ -18,7 +17,7 @@ export const handler: Handlers = {
       for (const post of posts[dir]) {
         if(post && !post.date)
           try {
-            const res = await fetch(`${config()['GITHUB_API_URL']}?path=posts/${dir}/${post?.url}.md`)
+            const res = await fetch(`https://api.github.com/repos/guiguerreiro39/fresh-blog/commits?path=posts/${dir}/${post?.url}.md`)
             const payload = await res.json()
             post.date = payload[0].commit.author.date
           } catch(err) {
