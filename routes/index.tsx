@@ -13,7 +13,7 @@ export const handler: Handlers = {
     for (const dir of Object.keys(posts)) {
       posts[dir] = await getPosts(dir);
     }
-    
+
     return ctx.render({ posts })
   },
 };
@@ -21,7 +21,7 @@ export const handler: Handlers = {
 export default function Home(props: PageProps) {
   return (
     <main class={tw`mx-auto min-w-screen min-h-screen relative`}>
-      <Navbar />
+      <Navbar sections={Object.keys(props.data.posts)} />
       <Content posts={props.data.posts} />
       <Footer />
     </main>

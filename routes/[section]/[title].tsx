@@ -17,14 +17,19 @@ export const handler: Handlers = {
     const markdown = decoder.decode(await Deno.readFile(`./posts/${section}/${file}.md`));
     const markup = Marked.parse(markdown)
 
-    return ctx.render({ markup: markup?.content })
+    const sections: string[] = []
+    for await (const section of Deno.readDir("./posts")) {
+      if (section.isDirectory) sections.push(section.name)
+    }
+
+    return ctx.render({ markup: markup?.content, sections: sections})
   },
 };
 
 export default function MarkdownPost(props: PageProps) {
   return (  
     <main class={tw`mx-auto w-min-screen min-h-screen relative`}>
-      <Navbar />
+      <Navbar sections={props.data.sections} />
       <article class={tw`p-36`}>
         <Post markup={props.data.markup} />
       </article>
