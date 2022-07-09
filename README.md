@@ -1,11 +1,8 @@
-# fresh project
+# Fresh Blog
+This blog was made using the newest Full-stack framework powered by Deno called Fresh Framework. If you are curious about it you can find eveything in their website: https://fresh.deno.dev/
 
-### Usage
+## Demo
+I've deployed the blog using Deno Deploy. You can check out the demo in here: https://gg-blog.deno.dev/
 
-Start the project:
-
-```
-deno task start
-```
-
-This will watch the project directory and restart as necessary.
+## Local Start
+You can start the project locally using the code `deno task start`
