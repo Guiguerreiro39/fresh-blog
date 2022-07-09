@@ -48,7 +48,9 @@ export default function Content(props: ContentProps) {
                     By&nbsp;
                     <span class={tw`font-semibold`}>Guilherme Guerreiro</span>
                     <span class={tw`mx-2`}>•</span>
-                    {post?.date?.toDateString()}
+                    {
+                      typeof(post?.date) === "string" ?  new Date(post.date).toDateString() : post?.date?.toDateString()
+                    }
                   </p>
                 </div>
               </a>

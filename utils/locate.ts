@@ -5,7 +5,7 @@ export type PostsType = {
 type PostType = {
   url: string, 
   title: string, 
-  date: Date | null
+  date: Date | null | string
 }
 
 export async function createObj() {
