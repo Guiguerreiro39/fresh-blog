@@ -291,6 +291,13 @@ function render(ctx: RenderContext, render: InnerRenderFunction) {
 
 First I must read the file as text using `Deno.readTextFile` and store it in a constant. Afterwards, I must send it in the `ctx.styles` alongside the rest of the styles.
 
+## Performance
+What **Fresh** really does well it's boosting performance and I've checked that through Google's Lighthouse extension which generates a report with all these metrics tested.
+
+![image](https://user-images.githubusercontent.com/11543544/178141264-d00becaa-f5a1-404a-a0b6-42acf33cee2f.png)
+
+As you can see, the performance is at 100%, which is pretty good if you ask me!
+
 ## Final review of Fresh
 This framework provides some cool concepts that are definetely interesting and aim to solve some of the performance issues other frameworks have but it lacks in other aspects:
 
