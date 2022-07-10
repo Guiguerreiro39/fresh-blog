@@ -9,9 +9,9 @@ import Footer from '../../components/Footer.tsx';
 
 export const handler: Handlers = {
   async GET(req, ctx) {
-    const url = req.url.split('/')
-    const file = url[url.length - 1]
-    const section = url[url.length - 2]
+    const url = new URL(req.url).pathname.split('/')
+    const file = url[2]
+    const section = url[1]
 
     const decoder = new TextDecoder("utf-8");
     const markdown = decoder.decode(await Deno.readFile(`./posts/${section}/${file}.md`));

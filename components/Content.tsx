@@ -28,7 +28,7 @@ export default function Content(props: ContentProps) {
               >
                 <img
                   class={tw`h-1/2 w-full cover`}
-                  src={`${post?.url}.jpg`}
+                  src={`/${post?.url}.jpg`}
                   alt={post?.title}
                 />
                 <div class={tw`my-4 mx-3 space-y-4`}>
