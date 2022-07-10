@@ -16,6 +16,6 @@ export default function Post(props: PostProps) {
   })
 
   return (
-    <div class="markdown-body" ref={el} ></div>
+    <div data-color-mode="light" data-light-theme="light" data-dark-theme="dark" class="markdown-body" ref={el} ></div>
   );
 }

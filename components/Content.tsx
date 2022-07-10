@@ -27,8 +27,8 @@ export default function Content(props: ContentProps) {
                   `bg-white w-80 h-96 rounded shadow-md overflow-hidden cursor-pointer relative`}
               >
                 <img
-                  class={tw`h-1/2 w-full cover`}
-                  src={`/${post?.url}.jpg`}
+                  class={tw`h-1/2 w-full bg-cover bg-center`}
+                  src={`/thumbnails/${post?.url}.jpg`}
                   alt={post?.title}
                 />
                 <div class={tw`my-4 mx-3 space-y-4`}>

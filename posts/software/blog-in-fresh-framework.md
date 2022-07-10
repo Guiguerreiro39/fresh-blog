@@ -47,7 +47,7 @@ You can make your blog anyway you want, as long as you can read files and parse 
 │   ├── Footer.tsx
 │   ├── Navbar.tsx
 ├── styles
-│   ├── markdown.css
+│   ├── main.css
 ├── posts
 │   ├── section
 │   ├── ├── post.md
@@ -61,7 +61,7 @@ You can make your blog anyway you want, as long as you can read files and parse 
 
 Since I created sections for my posts, I must first know the sections and, afterwards, read the files inside each one. My idea was to create an object with all the information I needed and pass it through the *props* directly into my page. The object looks something like this:
 
-```js
+```
 {
   <section>: [
     {
@@ -78,7 +78,7 @@ Where *section* is the name of my folders, *url* the name of my files, *title* t
 
 To read the directories inside of my *posts* folder I've used the `Deno.readDir` function and created a function to store them in an object and initialize each of them with an empty array.
 
-```js
+```ts
 /* locate.ts */
 
 export async function createObj() {
@@ -93,7 +93,7 @@ export async function createObj() {
 
 Afterwards, I must go through each of these sections and actually store the file information in the array. To do this I've used the previous function to scafold the directory but also `Deno.readFile` to read the file and `Deno.stat` to get some of the file's information such as *birthtime*. I've created a function that returns an object array for each of the sections.
 
-```js
+```ts
 /* locate.ts */
 
 export async function getPosts(dir: string) {
@@ -118,17 +118,17 @@ export async function getPosts(dir: string) {
 You must use *async await* with these functions because, although **Deno** provides a synchrousnous way for each of these, when deploying it complains about them.
 
 ### Parse the markdown
-First objective accomplished! Now it's time for the final one which is parsing the markdown text into HTML elements. To do this, **Deno** has a nice module library called *markdown*. To use it, change your *import_map.json* file and add an extra line `"markdown": "https://deno.land/x/markdown@v2.0.0/mod.ts"`. You can now import this module on any file with `import * as markdown from "markdown"`.
+First objective accomplished! Now it's time for the final one which is parsing the markdown text into HTML elements. To do this, **Deno** has a nice module library called *gfm*. To use it, change your *import_map.json* file and add an extra line `"gfm": "https://deno.land/x/gfm@0.1.22/mod.ts"`. You can now import this module on any file with `import * as gfm from "gfm"`.
 
 I must parse the markdown before the page renders so, I've used a *middleware handler* for this. 
 
-```js
+```ts
 /* [title].tsx */
 
 /** @jsx h */
 import { h } from "preact";
 import { PageProps, Handlers } from "$fresh/server.ts";
-import { Marked } from "markdown";
+import { render } from "gfm";
 
 export const handler: Handlers = {
   async GET(req, ctx) {
@@ -138,16 +138,16 @@ export const handler: Handlers = {
 
     const decoder = new TextDecoder("utf-8");
     const markdown = decoder.decode(await Deno.readFile(`./posts/${section}/${file}.md`));
-    const markup = Marked.parse(markdown)
+    const markup = render(markdown)
 
-    return ctx.render({ markup: markup?.content })
+    return ctx.render({ markup: markup })
   },
 };
 ```
 
-In essence, I fetch my section and file name through my url, read the file which is located in the path `./posts/${section}/${file}.md` and decode it using the `TextDecoder`. I then parse the markdown into HTML string using the `Marked.parse` function. I then render the page using `ctx.render` with the generated string inside as an object `{ markup: markup?.content }`. You can then retrieve this content in your page by using `props.data.markup`.
+In essence, I fetch my section and file name through my url, read the file which is located in the path `./posts/${section}/${file}.md` and decode it using the `TextDecoder`. I then parse the markdown into HTML string using the `render` function. I then render the page using `ctx.render` with the generated string inside as an object `{ markup: markup }`. You can then retrieve this content in your page by using `props.data.markup`.
 
-```js
+```ts
 /* [title].tsx */
 
 export default function MarkdownPost(props: PageProps) {
@@ -163,7 +163,7 @@ export default function MarkdownPost(props: PageProps) {
 
 You can see in the code above that I'm using a component inside of the *article* tag. Well, this is my only *island* component and I must do this because, unfortunately, **Fresh** does not provide (or at least does not explain how to do it) a way to insert HTML elements into my page before rendering, so I must use some DOM manipulation to change my HTML string into actual elements.
 
-```js
+```ts
 /* Post.tsx */
 
 /** @jsx h */
@@ -184,7 +184,7 @@ export default function Post(props: PostProps) {
   })
 
   return (
-    <div class="markdown-body" ref={el} ></div>
+    <div data-color-mode="light" data-light-theme="light" data-dark-theme="dark" class="markdown-body" ref={el} ></div>
   );
 }
 ```
@@ -194,7 +194,7 @@ In this file, I'm using the `useRef` hook to get the *div* element and the `useL
 ### Displaying all of my posts in the Home page
 I now have my posts being shown on their specific url but how about selecting which post to go? In your `index.tsx` file, create a new handler to run some code before rendering the page. In here, we will create our *posts* object using the functions we previously coded inside our `locate.ts` file.
 
-```js
+```ts
 /* index.tsx */
 
 /** @jsx h */
@@ -229,7 +229,7 @@ export default function Home(props: PageProps) {
 }
 ```
 
-```js
+```ts
 /* Content.tsx */
 
 /** @jsx h */
@@ -268,22 +268,37 @@ We go through every entry on our object, and map through the *value* array to di
 All done! Now you have your home page displaying all posts and a page for each post displaying the content of your markdown!
 
 ### Styling
-I won't go through how I've styled my blog (you can check it out in my source code if you want) but I must go through a basic thing among web frameworks that **Fresh** made a bit harder to find which is: importing a *.css* file into our pages. I wanted to style my markdown content so I got a stylesheet. But, unfortunately, you can't just do `import "./styles/markdown.css"` in your code. The easiest way I found was to change the `main.ts` file and add a few extra lines to it. Note that I'm using the `twin` module but you could do this without it as well.
+I won't go through how I've styled my blog (you can check it out in my source code if you want) but I must go through a basic thing among web frameworks that **Fresh** made a bit harder to find which is: importing a *.css* file into our pages. I wanted to style my markdown background color and other useful content so I got a stylesheet. But, unfortunately, you can't just do `import "./styles/markdown.css"` in your code. The easiest way I found was to change the `main.ts` file and add a few extra lines to it. Note that I'm using the `twin` module but you could do this without it as well.
 
-```js
+In here, I'm also importing `CSS` from `gfm` module to style my markdown elements. This loads the necessary styles into my page.
+
+```ts
 /* main.ts */
+
+/// <reference no-default-lib="true" />
+/// <reference lib="dom" />
+/// <reference lib="dom.asynciterable" />
+/// <reference lib="deno.ns" />
+/// <reference lib="deno.unstable" />
+
+import { InnerRenderFunction, RenderContext, start } from "$fresh/server.ts";
+import manifest from "./fresh.gen.ts";
+
+import { config, setup } from "@twind";
+import { CSS } from 'gfm'
+import { virtualSheet } from "twind/sheets";
 
 const sheet = virtualSheet();
 sheet.reset();
 setup({ ...config, sheet });
 
-const markdownStyle = await Deno.readTextFile("./styles/markdown.css");
+const stylesheet = await Deno.readTextFile("./styles/markdown.css");
 
 function render(ctx: RenderContext, render: InnerRenderFunction) {
   const snapshot = ctx.state.get("twind") as unknown[] | null;
   sheet.reset(snapshot || undefined);
   render();
-  ctx.styles.splice(0, ctx.styles.length, ...(sheet).target, markdownStyle);
+  ctx.styles.splice(0, ctx.styles.length, ...(sheet).target, CSS, stylesheet);
   const newSnapshot = sheet.reset();
   ctx.state.set("twind", newSnapshot);
 }
@@ -315,6 +330,6 @@ Overall, **Fresh framework** has a long way to go in order to fight against more
 
 If you want to explore more, check out my source code: https://github.com/Guiguerreiro39/fresh-blog
 
-The blog is deployed with **Deno Deploy**: https://gg-blog.deno.dev/
+The blog is deployed with **Deno Deploy** at https://gg-blog.deno.dev/ but proxied to my own domain at https://blog.guilhermegr.com.
 
 That's all for now! ***See ya!***

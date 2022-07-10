@@ -1,0 +1,16 @@
+ol {
+  list-style: decimal;
+}
+ul {
+  list-style: disc
+}
+html,body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  background-color: #f6f6f6;
+}
+
+div.markdown-body {
+  background-color: #f6f6f6 !important;
+}
