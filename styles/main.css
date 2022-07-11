@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap');
+
 ol {
   list-style: decimal;
 }
@@ -9,6 +11,7 @@ html,body {
   padding: 0;
   height: 100vh;
   background-color: #f6f6f6;
+  font-family: 'Roboto', sans-serif;
 }
 
 div.markdown-body {
