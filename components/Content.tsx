@@ -9,7 +9,7 @@ interface ContentProps {
 
 export default function Content(props: ContentProps) {
   return (
-    <section class={tw`px-36 py-32 space-y-4`}>
+    <section class={tw`lg:px-36 lg:py-32 px-20 py-28 space-y-4`}>
       <p class={tw`opacity-50 font-semibold`}>
         Total of{" "}
         {Object.values(props.posts).map((p) => p.length).reduce(
@@ -17,17 +17,17 @@ export default function Content(props: ContentProps) {
           0,
         )} posts
       </p>
-      <div class={tw`flex flex-wrap items-center gap-5`}>
+      <div class={tw`flex flex-wrap items-center lg:justify-start justify-center gap-5`}>
         {Object.entries(props.posts).map(([key, value]) =>
           value.map((post) => {
             return (
               <a
                 href={`/${key}/${post?.url}`}
                 class={tw
-                  `bg-white w-80 h-96 rounded shadow-md overflow-hidden cursor-pointer relative`}
+                  `bg-white lg:w-80 w-full h-96 rounded shadow-md overflow-hidden cursor-pointer relative flex lg:block`}
               >
                 <img
-                  class={tw`h-1/2 w-full bg-cover bg-center`}
+                  class={tw`lg:h-1/2 h-full lg:w-full w-1/2 bg-cover bg-center`}
                   src={`/thumbnails/${post?.url}.jpg`}
                   alt={post?.title}
                 />
@@ -38,12 +38,12 @@ export default function Content(props: ContentProps) {
                   >
                     {key}
                   </span>
-                  <h3 class={tw`border-none capitalize`}>
+                  <h3 class={tw`lg:text-lg xs:text-3xl text-2xl capitalize`}>
                     {post?.title}
                   </h3>
                   <p
                     class={tw
-                      `absolute bottom-1 left-0 mx-2 text-xs text-black opacity-40`}
+                      `absolute bottom-1 lg:left-0 right-0 mx-2 text-xs text-black opacity-40`}
                   >
                     By&nbsp;
                     <span class={tw`font-semibold`}>Guilherme Guerreiro</span>
