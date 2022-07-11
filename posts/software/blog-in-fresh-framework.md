@@ -1,5 +1,5 @@
 # I've made a Blog using the Fresh Framework
-Web development frameworks have been around for a while now, and they help solve many difficulties that would be hard to surpass if we were to make web applications using nothing but HTML templates or vanilla javascript but, it also seems that a new framework appears every week which promises the world and more. Well, **Fresh framework** is something like that, but with a tiny twiste which makes it interesting to try out.
+Web development frameworks have been around for a while now, and they help solve many difficulties that would be hard to surpass if we were to make web applications using nothing but HTML templates or vanilla Javascript but, it also seems that a new framework appears every week which promises the world and more. Well, **Fresh framework** is something like that, but with a tiny twist which makes it interesting to try out.
 
 In a nutshell, **Fresh framework** is a full-stack web framework that considers itself *"The next-gen web framework"* with some neat features:
 
@@ -27,7 +27,7 @@ To start the project I've followed the standard procedure shown in the **Fresh**
 This comes with some code examples you can go through but, essentially, you must be aware of two folders it creates: *routes* and *islands*. These folders are the essence of **Fresh** and you should know what they do:
 
 - ***routes***: this is where you structure your code and create your routes. Basically, the name of every file you create in this folder is going to be a route path. So, if you create a file called *"blog.tsx"*, the code displayed in there will the accessible through the path *https://localhost:8000/blog*. The same happens with the folders inside, if you have a folder called *api* and a file named *jokes.ts* inside of it, you can access it through the path *https://localhost:8000/api/jokes*. To make dynamic routes simply have your file or folder name inside *[]* and access the parameter using *props.params.[name]*.
-- ***islands***: this is where you store your code that requires javascript to run. So, all code that must be changed or manipulated during the usage of your page must go in here. What **Fresh** does special is that it only uses javascript when compiling your project for the code you have inside of this folder, the rest of it that is inside of the *routes* folder is rendered as a pure HTML template.
+- ***islands***: this is where you store your code that requires Javascript to run. So, all code that must be changed or manipulated during the usage of your page must go in here. What **Fresh** does special is that it only uses Javascript when compiling your project for the code you have inside of this folder, the rest of it that is inside of the *routes* folder is rendered as a pure HTML template.
 
 Ok, let's get ready for some coding shall we?
 
@@ -91,7 +91,7 @@ export async function createObj() {
 }
 ```
 
-Afterwards, I must go through each of these sections and actually store the file information in the array. To do this I've used the previous function to scafold the directory but also `Deno.readFile` to read the file and `Deno.stat` to get some of the file's information such as *birthtime*. I've created a function that returns an object array for each of the sections.
+Afterwards, I must go through each of these sections and actually store the file information in the array. To do this I've used the previous function to search through the directory but also `Deno.readFile` to read the file and `Deno.stat` to get some of the file's information such as *birthtime*. I've created a function that returns an object array for each of the sections.
 
 ```ts
 /* locate.ts */
@@ -115,7 +115,7 @@ export async function getPosts(dir: string) {
 }
 ```
 
-You must use *async await* with these functions because, although **Deno** provides a synchrousnous way for each of these, when deploying it complains about them.
+You must use *async await* with these functions because, although **Deno** provides a synchronous way for each of these, when deploying it complains about them.
 
 ### Parse the markdown
 First objective accomplished! Now it's time for the final one which is parsing the markdown text into HTML elements. To do this, **Deno** has a nice module library called *gfm*. To use it, change your *import_map.json* file and add an extra line `"gfm": "https://deno.land/x/gfm@0.1.22/mod.ts"`. You can now import this module on any file with `import * as gfm from "gfm"`.
@@ -189,7 +189,7 @@ export default function Post(props: PostProps) {
 }
 ```
 
-In this file, I'm using the `useRef` hook to get the *div* element and the `useLayoutEffect` to manipulate that element before the page renders and insert my HTML string inside of the element's *innerHTML* which, luckely, takes a string. This will insert all of my markdown generated HTML inside of the *div* element I have my *ref* on.
+In this file, I'm using the `useRef` hook to get the *div* element and the `useLayoutEffect` to manipulate that element before the page renders and insert my HTML string inside of the element's *innerHTML* which, luckly, takes a string. This will insert all of my markdown generated HTML inside of the *div* element I have my *ref* on.
 
 ### Displaying all of my posts in the Home page
 I now have my posts being shown on their specific url but how about selecting which post to go? In your `index.tsx` file, create a new handler to run some code before rendering the page. In here, we will create our *posts* object using the functions we previously coded inside our `locate.ts` file.
@@ -314,15 +314,15 @@ What **Fresh** really does well it's boosting performance and I've checked that 
 As you can see, the performance is at 100%, which is pretty good if you ask me!
 
 ## Final review of Fresh
-This framework provides some cool concepts that are definetely interesting and aim to solve some of the performance issues other frameworks have but it lacks in other aspects:
+This framework provides some cool concepts that are definitely interesting and aim to solve some of the performance issues other frameworks have but it lacks in other aspects:
 
 - **Poor documentation**: I know it's a very new framework and therefore we should not expect it to have as much of a documentation and community guidance as other more popular frameworks but the official documentation lacks information in several aspects, making the developer search by itself or just randomly trying out things without any knowledge of the outcome.
-- **Reuse of components**: I'm sure there must be a way to do this but, sometimes we want to have a template loaded for everypage which can contain things like a *navbar* or *footer* but **Fresh** does not provide us this and, if it does, is very well hidden and, again, not documented.
-- **Deno modules**: some people might hate me for this but **Deno** modules are definetely not as strong, at the moment, as **Node.js** ones which makes it harder to develop a web applications with them.
+- **Reuse of components**: I'm sure there must be a way to do this but, sometimes we want to have a template loaded for every page which can contain things like a *navbar* or *footer* but **Fresh** does not provide us this and, if it does, is very well hidden and, again, not documented.
+- **Deno modules**: some people might hate me for this but **Deno** modules are definitely not as strong, at the moment, as **Node.js** ones which makes it harder to develop a web applications with them.
 - **Styles**: not being able to import a stylesheet is a big downside. I had to go through some search before I could figure out how to actually do this an, even so, I don't think I'm doing a really good job with it but, *hey!*, it works!
 - **Page Refresh**: because it compiles your code into pure HTML, it also means your pages must reload when switching url. Although one-page web applications are slower in terms of performance, the flow it provides afterwards is *refreshing*. 
 
-Overall, **Fresh framework** has a long way to go in order to fight against more popular full-stack frameworks and definetely needs some improvements in the above issues or, at least, give us the documentation to know how to surpass them!
+Overall, **Fresh framework** has a long way to go in order to fight against more popular full-stack frameworks and definitely needs some improvements in the above issues or, at least, give us the documentation to know how to surpass them!
 
 1. Would I use it to build big web applications? - **No**
 2. Is it easy to pick-up? - **Yes**
