@@ -326,7 +326,7 @@ Overall, **Fresh framework** has a long way to go in order to fight against more
 
 1. Would I use it to build big web applications? - **No**
 2. Is it easy to pick-up? - **Yes**
-3. Would I use it to build simple websites? - **Yes**
+3. Would I use it to build simple websites? - **Depends on the dependencies**
 
 If you want to explore more, check out my source code: https://github.com/Guiguerreiro39/fresh-blog
 
