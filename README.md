@@ -6,3 +6,5 @@ I've deployed the blog using Deno Deploy. You can check out the demo in here: ht
 
 ## Local Start
 You can start the project locally using the code `deno task start`
+
+[![Made with Fresh](https://fresh.deno.dev/fresh-badge.svg)](https://fresh.deno.dev)
